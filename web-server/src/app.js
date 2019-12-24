@@ -19,7 +19,7 @@ app.use(express.static(staticPath))
 
 app.get("", (req,res) => {
     res.render("index", {
-        title: "BULALAAS",
+        title: "Welcome",
         name: "Dixon"
     })
 })
