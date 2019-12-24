@@ -4,6 +4,9 @@ const hbs = require("hbs")
 
 const app = express()
 
+const geocode = require("./utils/geocode.js")
+const forecast = require("./utils/forecast.js")
+
 //define paths
 const viewsPath = path.join(__dirname, "../templates/views")
 const staticPath = path.join(__dirname, "../public")
@@ -45,10 +48,32 @@ app.get("/about", (req,res) => {
 })
 
 app.get("/weather", (req,res) => {
-    res.send({
-        forecast: "It's Raining",
-        location: "Seattle"
-    })
+    address = req.query.address
+    if (!address) {
+        return res.send({
+            error: "You must provide an address"
+        })
+    } else {
+        geocode(address, (error, {latitude, longitude, location} = {}) => {
+            if (error) {
+                return res.send({
+                    error: error,
+                })
+            }
+            forecast(latitude, longitude, (error, forecastData) => {
+                if (error) {
+                    return res.send({
+                        error: error,
+                    })
+                }
+                res.send({
+                    location,
+                    forecastData,
+                    address
+                })
+            })
+        })
+    }
 })
 
 app.get("/help*", (req,res) => {
