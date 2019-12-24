@@ -51,6 +51,23 @@ app.get("/weather", (req,res) => {
     })
 })
 
+app.get("/help*", (req,res) => {
+    res.render("404", {
+        errorMessage: "Help article not found",
+        title: "Error",
+        name: "Dixon"
+    })
+})
+
+app.get("*", (req,res) => {
+    res.render("404", {
+        errorMessage: "Page not found",
+        title: "Error",
+        name: "Dixon"
+    })
+})
+
+
 app.listen(3000, () => {
     console.log("Server started on 3000")
 })
