@@ -2,20 +2,19 @@ console.log("Client side javascript file");
 
 const weatherForm = document.querySelector("form")
 const userInput = document.querySelector("input")
+const messageOne = document.querySelector("#message-1")
+const messageTwo = document.querySelector("#message-2")
 
 weatherForm.addEventListener("submit", (e) => {
     e.preventDefault()
 
     const location = userInput.value
-
-    const messageOne = document.querySelector("#message-1")
-    const messageTwo = document.querySelector("#message-2")
     
     if (location === "") {
         return messageOne.textContent = "Type in an address"
     }
 
-    messageOne.textContent = "Loading..."
+    messageOne.textContent = "Searching..."
     messageTwo.textContent = ""
 
     fetch( "http://localhost:3000/weather?address=" + encodeURIComponent(location) ).then((response) => {
